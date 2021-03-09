@@ -14,6 +14,8 @@ class PwdCheckTest {
     private String pwConsecutiveNums;
     private String pwRepeatedNums;
     private String pwIsNull = null;
+    private String pwAllowedSpecialChars;
+    private String pwDisallowedSpecialChars;
 
     @BeforeAll
     static void init() {
@@ -29,6 +31,8 @@ class PwdCheckTest {
         pwOk = "aA?2020wastheWorst";
         pwConsecutiveNums = "aA!adass567";
         pwRepeatedNums = "aA$asdada3333";
+        pwAllowedSpecialChars = "()#$?%/@!";
+        pwDisallowedSpecialChars = "()#$?%/@!<\">";
 
     }
 
@@ -63,6 +67,17 @@ class PwdCheckTest {
         assertFalse(check.checkContainsNums(pwNoUpperNoSpecial));
         assertTrue(check.checkContainsNums(pwOk));
         assertTrue(check.checkContainsNums(pwTooLong));
+    }
+
+    @Test
+    void testContainsAllowedSpecialChars() {
+        PwdCheck check = new PwdCheck();
+        assertFalse(check.checkContainsAllowedSpecialChars(pwNoUpperNoSpecial));
+        assertFalse(check.checkContainsAllowedSpecialChars(pwDisallowedSpecialChars));
+        assertTrue(check.checkContainsAllowedSpecialChars(pwOk));
+        assertTrue(check.checkContainsAllowedSpecialChars(pwAllowedSpecialChars));
+
+
     }
 
 }
