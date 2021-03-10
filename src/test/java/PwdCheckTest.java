@@ -16,6 +16,9 @@ class PwdCheckTest {
     private String pwIsNull = null;
     private String pwAllowedSpecialChars;
     private String pwDisallowedSpecialChars;
+    private String pwNumbersAndChars;
+    private PwdCheck check;
+    private String pwOnlyNums;
 
     @BeforeAll
     static void init() {
@@ -24,6 +27,8 @@ class PwdCheckTest {
 
     @BeforeEach
     void setUp() {
+        check = new PwdCheck();
+
         pwTooShort = "Aa?1"; // too short
         pwTooLong = "bB?32abcabcdeabasswaasda1sadfadfasdfvadf4asdvadsfagadf";
         pwNoUpperNoSpecial = "abcdefghij"; // length ok, no upper case, no special char
@@ -33,12 +38,14 @@ class PwdCheckTest {
         pwRepeatedNums = "aA$asdada3333";
         pwAllowedSpecialChars = "()#$?%/@!";
         pwDisallowedSpecialChars = "()#$?%/@!<\">";
+        pwNumbersAndChars = "aastloBB12";
+        pwOnlyNums = "1112223334444";
 
     }
 
     @Test
     void testLength() {
-        PwdCheck check = new PwdCheck();
+
         assertFalse(check.checkLengthOk(pwTooShort));
         assertFalse(check.checkLengthOk(pwTooLong));
         assertTrue(check.checkLengthOk(pwOk));
@@ -47,14 +54,14 @@ class PwdCheckTest {
 
     @Test
     void pwNotNull() {
-        PwdCheck check = new PwdCheck();
+
         assertFalse(check.checkNotNull(pwIsNull));
         assertTrue(check.checkNotNull(pwOk));
     }
 
     @Test
     void testContainsUpperCase() {
-        PwdCheck check = new PwdCheck();
+
         assertFalse(check.checkUpperCase(pwNoUpperNoSpecial));
         assertTrue(check.checkUpperCase(pwOk));
         assertTrue(check.checkUpperCase(pwConsecutiveNums));
@@ -63,7 +70,7 @@ class PwdCheckTest {
 
     @Test
     void testContainsNums() {
-        PwdCheck check = new PwdCheck();
+
         assertFalse(check.checkContainsNums(pwNoUpperNoSpecial));
         assertTrue(check.checkContainsNums(pwOk));
         assertTrue(check.checkContainsNums(pwTooLong));
@@ -71,13 +78,40 @@ class PwdCheckTest {
 
     @Test
     void testContainsAllowedSpecialChars() {
-        PwdCheck check = new PwdCheck();
+
         assertFalse(check.checkContainsAllowedSpecialChars(pwNoUpperNoSpecial));
         assertFalse(check.checkContainsAllowedSpecialChars(pwDisallowedSpecialChars));
         assertTrue(check.checkContainsAllowedSpecialChars(pwOk));
         assertTrue(check.checkContainsAllowedSpecialChars(pwAllowedSpecialChars));
+        assertFalse(check.checkContainsAllowedSpecialChars(pwNumbersAndChars));
 
 
     }
+
+    @Test
+    void testContainsNoConsecutiveNums() {
+
+        assertFalse(check.containsNoConsecutiveNums(pwConsecutiveNums));
+        assertTrue(check.containsNoConsecutiveNums(pwOnlyNums));
+        assertTrue(check.containsNoConsecutiveNums(pwNumbersAndChars));
+        assertTrue(check.containsNoConsecutiveNums(pwOk));
+        assertTrue(check.containsNoConsecutiveNums(pwRepeatedNums));
+
+    }
+
+
+
+    @Test
+    void testContainsNoRepeatedNums() {
+
+        assertTrue(check.containsNoRepeatedNums(pwConsecutiveNums));
+        assertFalse(check.containsNoRepeatedNums(pwOnlyNums));
+        assertFalse(check.containsNoRepeatedNums(pwRepeatedNums));
+        assertTrue(check.containsNoRepeatedNums(pwNumbersAndChars));
+        assertTrue(check.containsNoRepeatedNums(pwOk));
+
+    }
+
+
 
 }
