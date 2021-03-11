@@ -9,6 +9,7 @@ public class PasswordChecker {
     private Handler start;
 
     public PasswordChecker() {
+
         makeChain();
     }
 

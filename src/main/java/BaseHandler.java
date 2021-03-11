@@ -10,6 +10,10 @@ public abstract class BaseHandler implements Handler {
     }
 
     public boolean handle(String pwToCheck) {
+        if (pwToCheck == null) {
+            return false;
+        }
+
         if (isValidPassword(pwToCheck)) {
             if (next != null) {
                 return next.handle(pwToCheck);

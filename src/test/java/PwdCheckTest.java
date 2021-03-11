@@ -121,7 +121,6 @@ class PwdCheckTest {
         assertTrue(checker.checkPassword(pwOk));
         assertFalse(checker.checkPassword(pwOnlyNums));
         assertFalse(checker.checkPassword(pwNumbersAndChars));
-        assertFalse(checker.checkPassword(pwNumbersAndChars));
         assertFalse(checker.checkPassword(pwRepeatedNums));
         assertFalse(checker.checkPassword(pwConsecutiveNums));
         assertFalse(checker.checkPassword(pwTooLong));
