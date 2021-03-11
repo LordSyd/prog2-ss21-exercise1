@@ -3,7 +3,6 @@ import java.util.regex.Pattern;
 
 public class ContainsNumbersCheckHandler extends BaseHandler{
 
-
     public boolean isValidPassword(String pwToCheck) {
         String regex = "((?=.*[0-9]).*)";
 
@@ -12,5 +11,4 @@ public class ContainsNumbersCheckHandler extends BaseHandler{
 
         return m.matches();
     }
-
 }

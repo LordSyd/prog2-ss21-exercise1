@@ -10,7 +10,6 @@ public class RepeatedNumbersCheckHandler extends BaseHandler{
         Matcher pw = p.matcher(pwToCheck);
         return !pw.find();
 
-
         /* Alternative with loop
         for (int i = 0; i < pwToCheck.length() - 2; i++) {
             if(Character.isDigit(pwToCheck.charAt(i))){

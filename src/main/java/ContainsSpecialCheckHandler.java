@@ -3,7 +3,6 @@ import java.util.regex.Pattern;
 
 public class ContainsSpecialCheckHandler extends BaseHandler{
 
-
     public boolean isValidPassword(String pwToCheck) {
         String regexContainsSpecial = "(?=.*[\\W]).*";
         String regexDisallowed = "((?=.*[^()#$?!%/@A-Za-z0-9]).*)";
@@ -17,7 +16,5 @@ public class ContainsSpecialCheckHandler extends BaseHandler{
             return !matchDisallowed.matches();
         }
         return false;
-
-
     }
 }

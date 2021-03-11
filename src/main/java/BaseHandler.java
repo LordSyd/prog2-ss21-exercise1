@@ -12,9 +12,7 @@ public abstract class BaseHandler implements Handler {
     public boolean handle(String pwToCheck) {
         if (pwToCheck == null) {
             return false;
-        }
-
-        if (isValidPassword(pwToCheck)) {
+        }else if (isValidPassword(pwToCheck)) {
             if (next != null) {
                 return next.handle(pwToCheck);
             }
@@ -22,9 +20,5 @@ public abstract class BaseHandler implements Handler {
         }else {
             return false;}
     }
-
     public abstract boolean isValidPassword(String pwToCheck);
-
-
-
 }

@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,10 +18,7 @@ class PwdCheckTest {
     private String pwAllowedSpecialChars;
     private String pwDisallowedSpecialChars;
     private String pwNumbersAndChars;
-    private PwdCheck check;
     private String pwOnlyNums;
-
-    //todo refactor tests to test Handler Methods
 
     @BeforeAll
     static void init() {
@@ -29,7 +27,6 @@ class PwdCheckTest {
 
     @BeforeEach
     void setUp() {
-        check = new PwdCheck();
 
         pwTooShort = "Aa?1"; // too short
         pwTooLong = "bB?32abcabcdeabasswaasda1sadfadfasdfvadf4asdvadsfagadf";
@@ -45,73 +42,81 @@ class PwdCheckTest {
 
     }
 
+    @DisplayName("Test")
     @Test
     void testLength() {
 
-        assertFalse(check.checkLengthOk(pwTooShort));
-        assertFalse(check.checkLengthOk(pwTooLong));
-        assertTrue(check.checkLengthOk(pwOk));
+        Handler check = new LengthCheckHandler();
+
+        assertFalse(check.handle(pwTooShort));
+        assertFalse(check.handle(pwTooLong));
+        assertTrue(check.handle(pwOk));
 
     }
 
     @Test
     void pwNotNull() {
 
-        assertFalse(check.checkNotNull(pwIsNull));
-        assertTrue(check.checkNotNull(pwOk));
+        Handler check = new LengthCheckHandler();
+
+        assertFalse(check.handle(pwIsNull));
+        assertTrue(check.handle(pwOk));
     }
 
     @Test
     void testContainsUpperCase() {
 
-        assertFalse(check.checkUpperCase(pwNoUpperNoSpecial));
-        assertTrue(check.checkUpperCase(pwOk));
-        assertTrue(check.checkUpperCase(pwConsecutiveNums));
+        Handler check = new UpperCaseCheckHandler();
 
+        assertFalse(check.handle(pwNoUpperNoSpecial));
+        assertTrue(check.handle(pwOk));
+        assertTrue(check.handle(pwConsecutiveNums));
     }
 
     @Test
     void testContainsNums() {
 
-        assertFalse(check.checkContainsNums(pwNoUpperNoSpecial));
-        assertTrue(check.checkContainsNums(pwOk));
-        assertTrue(check.checkContainsNums(pwTooLong));
+        Handler check = new ContainsNumbersCheckHandler();
+
+        assertFalse(check.handle(pwNoUpperNoSpecial));
+        assertTrue(check.handle(pwOk));
+        assertTrue(check.handle(pwTooLong));
     }
 
     @Test
     void testContainsAllowedSpecialChars() {
 
-        assertFalse(check.checkContainsAllowedSpecialChars(pwNoUpperNoSpecial));
-        assertFalse(check.checkContainsAllowedSpecialChars(pwDisallowedSpecialChars));
-        assertTrue(check.checkContainsAllowedSpecialChars(pwOk));
-        assertTrue(check.checkContainsAllowedSpecialChars(pwAllowedSpecialChars));
-        assertFalse(check.checkContainsAllowedSpecialChars(pwNumbersAndChars));
+        Handler check = new ContainsSpecialCheckHandler();
 
-
+        assertFalse(check.handle(pwNoUpperNoSpecial));
+        assertFalse(check.handle(pwDisallowedSpecialChars));
+        assertTrue(check.handle(pwOk));
+        assertTrue(check.handle(pwAllowedSpecialChars));
+        assertFalse(check.handle(pwNumbersAndChars));
     }
 
     @Test
     void testContainsNoConsecutiveNums() {
 
-        assertFalse(check.containsNoConsecutiveNums(pwConsecutiveNums));
-        assertTrue(check.containsNoConsecutiveNums(pwOnlyNums));
-        assertTrue(check.containsNoConsecutiveNums(pwNumbersAndChars));
-        assertTrue(check.containsNoConsecutiveNums(pwOk));
-        assertTrue(check.containsNoConsecutiveNums(pwRepeatedNums));
+        Handler check = new ConsecutiveNumbersCheckHandler();
 
+        assertFalse(check.handle(pwConsecutiveNums));
+        assertTrue(check.handle(pwOnlyNums));
+        assertTrue(check.handle(pwNumbersAndChars));
+        assertTrue(check.handle(pwOk));
+        assertTrue(check.handle(pwRepeatedNums));
     }
-
-
 
     @Test
     void testContainsNoRepeatedNums() {
 
-        assertTrue(check.containsNoRepeatedNums(pwConsecutiveNums));
-        assertFalse(check.containsNoRepeatedNums(pwOnlyNums));
-        assertFalse(check.containsNoRepeatedNums(pwRepeatedNums));
-        assertTrue(check.containsNoRepeatedNums(pwNumbersAndChars));
-        assertTrue(check.containsNoRepeatedNums(pwOk));
+        Handler check = new RepeatedNumbersCheckHandler();
 
+        assertTrue(check.handle(pwConsecutiveNums));
+        assertFalse(check.handle(pwOnlyNums));
+        assertFalse(check.handle(pwRepeatedNums));
+        assertTrue(check.handle(pwNumbersAndChars));
+        assertTrue(check.handle(pwOk));
     }
 
     @Test
@@ -128,9 +133,5 @@ class PwdCheckTest {
         assertFalse(checker.checkPassword(pwNoUpperNoSpecial));
         assertFalse(checker.checkPassword(pwNoSpecial));
         assertFalse(checker.checkPassword(pwDisallowedSpecialChars));
-
     }
-
-
-
 }
