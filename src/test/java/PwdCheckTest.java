@@ -7,6 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PwdCheckTest {
 
+    /**
+     * Repo:
+     * https://github.com/LordSyd/prog2-ss21-exercise1
+     */
+
     private String pwTooShort;
     private String pwTooLong;
     private String pwNoUpperNoSpecial;
