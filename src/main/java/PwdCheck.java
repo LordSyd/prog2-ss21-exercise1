@@ -1,6 +1,10 @@
 import java.util.regex.*;
 
 class PwdCheck {
+
+
+
+
     public boolean checkLengthOk(String pwToCheck) {
         return pwToCheck.length() >= 8 && pwToCheck.length() <= 25;
     }
@@ -57,7 +61,14 @@ class PwdCheck {
     }
 
     public boolean containsNoRepeatedNums(String pwToCheck) {
+        String pattern = "(\\d)\\1{3}";
+        Pattern p = Pattern.compile(pattern);
 
+        Matcher pw = p.matcher(pwToCheck);
+        return !pw.find();
+
+
+        /* Alternative with loop
         for (int i = 0; i < pwToCheck.length() - 2; i++) {
             if(Character.isDigit(pwToCheck.charAt(i))){
                 if (pwToCheck.charAt(i) == pwToCheck.charAt(i+1) &&
@@ -68,5 +79,7 @@ class PwdCheck {
             }
         }
         return true;
+    }*/
     }
+
 }

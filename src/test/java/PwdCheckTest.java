@@ -20,6 +20,8 @@ class PwdCheckTest {
     private PwdCheck check;
     private String pwOnlyNums;
 
+    //todo refactor tests to test Handler Methods
+
     @BeforeAll
     static void init() {
 
@@ -109,6 +111,24 @@ class PwdCheckTest {
         assertFalse(check.containsNoRepeatedNums(pwRepeatedNums));
         assertTrue(check.containsNoRepeatedNums(pwNumbersAndChars));
         assertTrue(check.containsNoRepeatedNums(pwOk));
+
+    }
+
+    @Test
+    void testChain() {
+        PasswordChecker checker = new PasswordChecker();
+
+        assertTrue(checker.checkPassword(pwOk));
+        assertFalse(checker.checkPassword(pwOnlyNums));
+        assertFalse(checker.checkPassword(pwNumbersAndChars));
+        assertFalse(checker.checkPassword(pwNumbersAndChars));
+        assertFalse(checker.checkPassword(pwRepeatedNums));
+        assertFalse(checker.checkPassword(pwConsecutiveNums));
+        assertFalse(checker.checkPassword(pwTooLong));
+        assertFalse(checker.checkPassword(pwTooShort));
+        assertFalse(checker.checkPassword(pwNoUpperNoSpecial));
+        assertFalse(checker.checkPassword(pwNoSpecial));
+        assertFalse(checker.checkPassword(pwDisallowedSpecialChars));
 
     }
 
